@@ -26,6 +26,9 @@ class Counter {
     #totalCount; // total amount of potatoes made
     #nextAchievement; // amount of potatoes till the next achievement
 
+    #htmlClickAmount // the html element representing how much a click gives
+    #clickAmount;
+
     //
     //Class constants
     //
@@ -50,7 +53,7 @@ class Counter {
     //
     //Constructor
     //
-    constructor(name, pps, messageBox, achievementBox, clickBox) {
+    constructor(name, pps, messageBox, achievementBox, clickBox, clickAmount) {
         this.#count = 0;
         this.#name = name;
         this.#htmlCounter = document.getElementById(name);
@@ -66,6 +69,8 @@ class Counter {
         this.#timeSinceBonus = 0;
         this.#totalCount = 0;
         this.#nextAchievement = Counter.#ACHIEVEMENT_THRESHOLD;
+        this.#htmlClickAmount = document.getElementById(clickAmount);
+        this.#clickAmount = 1;
 
         this.#count = 500000000
     }
@@ -78,7 +83,8 @@ class Counter {
     //Method that regularly updates the counter and pps texts
     #updateCounter() {
         this.#htmlCounter.innerText = `Counter: ${Math.round(this.#count)} potatoes`; // Display the counter
-        this.#htmlPPS.innerText = `Potatoes per second: ${this.#rate * this.#multiplier} pps `;
+        this.#htmlPPS.innerText = `Potatoes per second: ${this.#rate * this.#multiplier} pps`;
+        this.#htmlClickAmount.innerText = `Click amount: ${this.#clickAmount} ppc`;
 
         // add to current count
         this.#count += (this.#rate * this.#multiplier * Counter.#INTERVAL) / Counter.SECOND_IN_MS;
@@ -171,5 +177,12 @@ class Counter {
 
     get count() {
         return this.#count;
+    }
+
+    /**
+     * @param {number} amount
+     */
+    set clickAmount(amount) {
+        this.#clickAmount = amount;
     }
 }

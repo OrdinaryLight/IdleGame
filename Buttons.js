@@ -129,6 +129,7 @@ class ClickingButton extends Button {
 
     increaseClick(amount) {
         this.#clickAmount += amount;
+        this.counter.clickAmount = this.#clickAmount;
     }
 
     clickAction() {
