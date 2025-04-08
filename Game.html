@@ -114,12 +114,37 @@
 				</div>
 				<div class="store-section">
 					<h4 class="section-header">Clicker Upgrades</h4>
-					<!--Tilled Earth Button-->
-					<div class="image-button-container">
-						<img id="Tilled Earth" class="image-button" src="Figs/TilledEarth.jpg"
-							alt="Tilled Earth Button">
-						<span id="Tilled Earth-text" class="button-text">0 Tilled Earth<br>Cost: 10 <br>Click adds
-							+1</span>
+					<!-- Grid container for upgrade buttons (2 columns) -->
+					<div class="store-grid">
+						<!--Tilled Earth Button-->
+						<div class="image-button-container">
+							<img id="Tilled Earth" class="image-button" src="Figs/TilledEarth.jpg"
+								alt="Tilled Earth Button">
+							<span id="Tilled Earth-text" class="button-text">0 Tilled Earth<br>Cost: 10 <br>Click adds
+								+1</span>
+						</div>
+						<!--Better Soil Button-->
+						<div class="image-button-container">
+							<img id="Better Soil" class="image-button" src="Figs/BetterSoil.jpg"
+								alt="Better Soil Button">
+							<span id="Better Soil-text" class="button-text">0 Better Soil<br>Cost: 500 <br>Click adds
+								+6</span>
+						</div>
+						<!--Greenhouse Button-->
+						<div class="image-button-container">
+							<img id="Greenhouse" class="image-button" src="Figs/Greenhouse.jpg" alt="Greenhouse Button">
+							<span id="Greenhouse-text" class="button-text">0 Greenhouse<br>Cost: 5000 <br>Click adds
+								+80</span>
+						</div>
+						<!--Micro-Irrigation Button-->
+						<div class="image-button-container">
+							<img id="Micro-Irrigation" class="image-button" src="Figs/MicroIrrigation.jpg"
+								alt="Micro-Irrigation Button">
+							<span id="Micro-Irrigation-text" class="button-text">0 Micro-Irrigation<br>Cost: 62500
+								<br>Click
+								adds
+								+400</span>
+						</div>
 					</div>
 				</div>
 				<div class="store-section">
@@ -194,6 +219,9 @@
 
 							// Clicker upgrades
 							const clickerUpgrade1 = new ClickerUpgradeButton("Tilled Earth", counter, 10, 1, bigPotato, 2);
+							const clickerUpgrade2 = new ClickerUpgradeButton("Better Soil", counter, 500, 6, bigPotato, 3);
+							const clickerUpgrade3 = new ClickerUpgradeButton("Greenhouse", counter, 5000, 80, bigPotato, 2.5);
+							const clickerUpgrade4 = new ClickerUpgradeButton("Micro-Irrigation", counter, 62500, 400, bigPotato, 1.7);
 
 							//The 4 types of buildings
 							const building1 = new BuildingButton("Farm", counter, 50, 1);
@@ -228,6 +256,15 @@
 							counter.addBonusButton(bonus3);
 							counter.addBonusButton(bonus4);
 							counter.addBonusButton(bonus5);
+
+							//TODO
+							/*
+							potato storm bonus (baked potato)
+							click multiplier bonus (temporary foregn workers?? maybe a coupl)
+							redo prices
+							make buttons able to be clicked everywhere
+							
+							*/
 						</script>
 </body>
 
