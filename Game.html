@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Potato Clicker</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+	<!-- Main game layout with two primary sections -->
+	<div class="game-container">
+		<!-- Bonus buttons that will randomly be selected to appear -->
+		<img id="Sweet Potato Bonus" class="image-bonus hidden" src="Figs/SweetPotato.jpg" alt="Sweet Potato Button">
+		<img id="Red Potato Bonus" class="image-bonus hidden" src="Figs/RedPotato.jpg" alt="Red Potato Button">
+		<img id="Austrian Crescent Bonus" class="image-bonus hidden" src="Figs/AustrianCrescent.jpeg"
+			alt="Austrian Crescent Potato Button">
+		<img id="Blue Potato Bonus" class="image-bonus hidden" src="Figs/BluePotato.png" alt="Blue Potato Button">
+		<img id="Yukon Gold Bonus" class="image-bonus hidden" src="Figs/YukonGold.png" alt="Yukon Gold Potato Button">
+
+		<!-- Left section: Main game area with potato and counters -->
+		<div class="main-game-area">
+			<h1>Welcome to Potato Clicker!</h1>
+			<p class="counter-text" id="counter">Counter: 0 potatoes</p>
+			<p class="counter-text" id="pps">Potatoes per second: 0 pps</p>
+
+			<!-- Container for the big potato button -->
+			<div class="potato-container">
+				<img class="image-bigPotato" id="BigPotato" src="Figs/BigPotato.jpg" alt="Big Potato Button">
+			</div>
+		</div>
+
+		<!-- Right section: Scrollable store with buildings and upgrades -->
+		<div class="store-panel">
+			<h2 class="store-header">Potato Store</h2>
+
+			<!-- Scrollable container for all store items -->
+			<div class="store-items-container">
+				<!-- Buildings section -->
+				<div class="store-section">
+					<h3 class="section-header">Buildings</h3>
+
+					<!-- Grid container for building buttons (2 columns) -->
+					<div class="store-grid">
+						<!-- Farm building button -->
+						<div class="image-button-container">
+							<img id="Farm" class="image-button" src="Figs/Farm.png" alt="Farm Button">
+							<span id="Farm-text" class="button-text">0 Farm<br>Cost: 50<br>Adds: 1 pps</span>
+						</div>
+
+						<!-- Food truck building button -->
+						<div class="image-button-container">
+							<img id="Food truck" class="image-button" src="Figs/FoodTruck.png" alt="Food Truck Button">
+							<span id="Food truck-text" class="button-text">0 Food truck<br>Cost: 5000<br>Adds: 5
+								pps</span>
+						</div>
+
+						<!-- Chips factory building button -->
+						<div class="image-button-container">
+							<img id="Chips factory" class="image-button" src="Figs/Factory.png"
+								alt="Chips factory Button">
+							<span id="Chips factory-text" class="button-text">0 Chips factory<br>Cost: 50000<br>Adds: 50
+								pps</span>
+						</div>
+
+						<!-- Potato cloner building button -->
+						<div class="image-button-container">
+							<img id="Potato cloner" class="image-button" src="Figs/Cloner.png"
+								alt="Potato Cloner Button">
+							<span id="Potato cloner-text" class="button-text">0 Potato cloner<br>Cost: 200000<br>Adds:
+								250 pps</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Upgrades section -->
+				<div class="store-section">
+					<h3 class="section-header">Upgrades</h3>
+
+					<!-- Grid container for upgrade buttons (2 columns) -->
+					<div class="store-grid">
+						<!-- Harvester upgrade button -->
+						<div class="image-button-container">
+							<img id="Harvester" class="image-button" src="Figs/Harvester.png" alt="Harvester Button">
+							<span id="Harvester-text" class="button-text">0 Harvester<br>Cost: 5000<br>Farm prod. x
+								2</span>
+						</div>
+
+						<!-- Poutine maker upgrade button -->
+						<div class="image-button-container">
+							<img id="Poutine maker" class="image-button" src="Figs/PoutineMaker.png"
+								alt="Poutine maker Button">
+							<span id="Poutine maker-text" class="button-text">0 Poutine maker<br>Cost: 50000<br>Food
+								truck prod. x 2</span>
+						</div>
+
+						<!-- Instant fryer upgrade button -->
+						<div class="image-button-container">
+							<img id="Instant fryer" class="image-button" src="Figs/InstantFryer.png"
+								alt="Instant fryer Button">
+							<span id="Instant fryer-text" class="button-text">0 Instant fryer<br>Cost: 500000<br>Chips
+								factory prod. x 2</span>
+						</div>
+
+						<!-- Advanced DNA upgrade button -->
+						<div class="image-button-container">
+							<img id="Advanced DNA" class="image-button" src="Figs/DNA.png" alt="Advanced DNA Button">
+							<span id="Advanced DNA-text" class="button-text">0 Advanced DNA<br>Cost: 2000000<br>Potato
+								cloner prod. x 2</span>
+						</div>
+					</div>
+				</div>
+				<div class="store-section">
+					<h4 class="section-header">Clicker Upgrades</h4>
+					<!--Tilled Earth Button-->
+					<div class="image-button-container">
+						<img id="Tilled Earth" class="image-button" src="Figs/TilledEarth.jpg"
+							alt="Tilled Earth Button">
+						<span id="Tilled Earth-text" class="button-text">0 Tilled Earth<br>Cost: 10 <br>Click adds
+							+1</span>
+					</div>
+				</div>
+				<div class="store-section">
+					<h4 class="section-header">Bonus Potato Purchases</h4>
+
+					<!-- Grid container for Bonus potatoes (2 columns) -->
+					<div class="store-grid">
+						<!-- Sweet Potato Button -->
+						<div class="image-button-container">
+							<img id="Sweet Potato Bonus Button" class="image-button" src="Figs/SweetPotato.jpg"
+								alt="Sweet Potato Button">
+							<span id="Sweet Potato Bonus Button-text" class="button-text">Sweet Potato Bonus<br>Cost:
+								1000<br>Prod: 2x for 10s</span>
+						</div>
+
+						<!-- Red Potato Button -->
+						<div class="image-button-container">
+							<img id="Red Potato Bonus Button" class="image-button" src="Figs/RedPotato.jpg"
+								alt="Red Potato Button">
+							<span id="Red Potato Bonus Button-text" class="button-text">Red Potato Bonus<br>Cost:
+								10000<br>Prod: 3x for 15s</span>
+						</div>
+
+						<!-- Austrian Crescent Potato Button -->
+						<div class="image-button-container">
+							<img id="Austrian Crescent Bonus Button" class="image-button"
+								src="Figs/AustrianCrescent.jpeg" alt="Austrian Crescent Potato Button">
+
+							<span id="Austrian Crescent Bonus Button-text" class="button-text">Austrian Crescent
+								Potato
+								Bonus<br>Cost:
+								100000<br>Prod: 5x for 20s</span>
+						</div>
+						<!-- Blue Potato Button -->
+						<div class="image-button-container">
+							<img id="Blue Potato Bonus Button" class="image-button" src="Figs/BluePotato.png"
+								alt="Blue Potato Button">
+							<span id="Blue Potato Bonus Button-text" class="button-text">Blue Potato Bonus<br>Cost:
+								1000000<br>Prod: 7x for 25s</span>
+						</div>
+						<!-- Yukon Gold Potato Button -->
+						<div class="image-button-container">
+							<img id="Yukon Gold Bonus Button" class="image-button" src="Figs/YukonGold.png"
+								alt="Yukon Gold Potato Button">
+							<span id="Yukon Gold Bonus Button-text" class="button-text">Yukon Gold Potato
+								Bonus<br>Cost:
+								10000000<br>Prod: 10x for 30s</span>
+						</div>
+					</div>
+					<div>
+
+						<!-- Message boxes: regular message and achievement message -->
+						<div id="Message Box" class="message hidden">
+							<p></p>
+						</div>
+						<div id="Click Box" class="big-click hidden">
+							<p></p>
+						</div>
+						<div id="Achievement Box" class="achievement hidden">
+							<p></p>
+						</div>
+
+						<script src="Counter.js"></script>
+						<script src="Buttons.js"></script>
+						<script>
+							//Creating the Counter 
+							const counter = new Counter("counter", "pps", "Message Box", "Achievement Box", "Click Box");
+
+							//// Creating below a Button object corresponding to each Button created above
+							//BigPotato
+							const bigPotato = new ClickingButton("BigPotato", counter);
+
+							// Clicker upgrades
+							const clickerUpgrade1 = new ClickerUpgradeButton("Tilled Earth", counter, 10, 1, bigPotato, 2);
+
+							//The 4 types of buildings
+							const building1 = new BuildingButton("Farm", counter, 50, 1);
+							const building2 = new BuildingButton("Food truck", counter, 5000, 5);
+							const building3 = new BuildingButton("Chips factory", counter, 50000, 50);
+							const building4 = new BuildingButton("Potato cloner", counter, 200000, 250);
+
+							//The 4 types of building upgrades
+							const upgrade1 = new BuildingUpgradeButton("Harvester", counter, 5000, 2, building1);
+							const upgrade2 = new BuildingUpgradeButton("Poutine maker", counter, 50000, 2, building2);
+							const upgrade3 = new BuildingUpgradeButton("Instant fryer", counter, 500000, 2, building3);
+							const upgrade4 = new BuildingUpgradeButton("Advanced DNA", counter, 2000000, 2, building4);
+
+							//The 5 types of bonus potatoes
+							const bonus1 = new BonusButton("Sweet Potato Bonus", counter, 2, 10);
+							const bonus2 = new BonusButton("Red Potato Bonus", counter, 3, 15);
+							const bonus3 = new BonusButton("Austrian Crescent Bonus", counter, 5, 20);
+							const bonus4 = new BonusButton("Blue Potato Bonus", counter, 7, 25);
+							const bonus5 = new BonusButton("Yukon Gold Bonus", counter, 10, 30);
+
+							//The 5 buttons to buy bonus potatoes	
+							const bonusButton1 = new PotatoButton("Sweet Potato Bonus Button", counter, 1000, bonus1, 4);
+							const bonusButton2 = new PotatoButton("Red Potato Bonus Button", counter, 10000, bonus2, 6);
+							const bonusButton3 = new PotatoButton("Austrian Crescent Bonus Button", counter, 100000, bonus3, 8);
+							const bonusButton4 = new PotatoButton("Blue Potato Bonus Button", counter, 1000000, bonus4, 10);
+							const bonusButton5 = new PotatoButton("Yukon Gold Bonus Button", counter, 10000000, bonus5, 12);
+
+
+							//Creating the 5 types of bonus buttons and adding them to the counter
+							counter.addBonusButton(bonus1);
+							counter.addBonusButton(bonus2);
+							counter.addBonusButton(bonus3);
+							counter.addBonusButton(bonus4);
+							counter.addBonusButton(bonus5);
+						</script>
+</body>
+
+</html>

@@ -1,0 +1,300 @@
+body {
+    background-color: #f5f0e6;
+    font-family: 'Arial', sans-serif;
+    color: #553311;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* Main game container with two panels side by side */
+.game-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+/* Left panel - Main game area */
+.main-game-area {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: auto;
+}
+
+/* Right panel - Store */
+.store-panel {
+    width: 30%;
+    background-color: #e8dcc6;
+    border-left: 4px solid #c9b18c;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.store-header {
+    background-color: #7b3f00;
+    color: #ffe6c3;
+    margin: 0;
+    padding: 15px;
+    text-align: center;
+    font-size: 1.5em;
+    border-bottom: 3px solid #553311;
+}
+
+/* Scrollable container for store items */
+.store-items-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+/* Section headers within the store */
+.section-header {
+    background-color: #a67c52;
+    color: #fff;
+    padding: 8px 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Grid layout for the 2-column arrangement */
+.store-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Store sections */
+.store-section {
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #7b3f00;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for the counter display */
+.counter-text {
+    color: #7b3f00;
+    font-size: 2em;
+    font-weight: bold;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    margin: 5px 0;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the potato container */
+.potato-container {
+    margin: 30px 0;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Style for the big clickable potato */
+.image-bigPotato {
+    width: 220px;
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.05s;
+    filter: drop-shadow(5px 5px 5px rgba(0, 0, 0, 0.3));
+}
+
+.image-bigPotato:hover {
+    transform: scale(1.05);
+}
+
+.image-bigPotato:active {
+    transform: scale(0.95);
+}
+
+/* Bonus items that appear */
+.image-bonus {
+    position: absolute;
+    width: 80px;
+    height: auto;
+    cursor: pointer;
+    z-index: 1000000;
+    animation: float 3s ease-in-out infinite;
+    filter: drop-shadow(3px 3px 3px rgba(0, 0, 0, 0.2));
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Store items styling */
+.image-button-container {
+    display: flex;
+    align-items: center;
+    background-color: #f9f3e6;
+    border: 2px solid #dcc9a6;
+    border-radius: 10px;
+    padding: 8px;
+    transition: all 0.2s;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.image-button-container:hover {
+    background-color: #fff8e7;
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.15);
+}
+
+.image-button-container:active {
+    transform: translateY(1px);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Button images in the store */
+.image-button {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* Text for store items */
+.button-text {
+    color: #553311;
+    font-size: 0.85em;
+    font-weight: bold;
+    text-align: left;
+    line-height: 1.3;
+    flex-grow: 1;
+}
+
+/* Message notifications */
+/* Message notifications */
+.message,
+.achievement,
+.big-click {
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+    position: fixed;
+    z-index: 100;
+    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    left: 35%;
+    transform: translateX(-50%);
+}
+
+.message {
+    background-color: #d9f0ff;
+    border: 2px solid #a0d1f7;
+    color: #005299;
+    top: 48%;
+}
+
+.achievement {
+    background-color: #fff3cc;
+    border: 2px solid #ffe380;
+    color: #664400;
+    top: 38%;
+    animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-in 2.5s forwards;
+}
+
+.big-click {
+    background-color: #d9f0ff;
+    border: 2px solid #a0d1f7;
+    color: #3f4c56;
+    top: 48%;
+    animation: floatUp 0.5s ease-out;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translate(-50%, 0%);
+    }
+
+    100% {
+        transform: translate(-50%, -50%);
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(50px), translateX(-50%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0), translateX(-50%);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Hidden elements */
+.hidden {
+    display: none;
+}
+
+/* Unlock effect */
+@keyframes unlock {
+    0% {
+        background-color: #fffacc;
+    }
+
+    100% {
+        background-color: #f9f3e6;
+    }
+}
+
+.unlock-animation {
+    animation: unlock 1s ease-in-out;
+}
+
+/* Custom scrollbar for the store */
+.store-items-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.store-items-container::-webkit-scrollbar-track {
+    background: #e8dcc6;
+}
+
+.store-items-container::-webkit-scrollbar-thumb {
+    background-color: #a67c52;
+    border-radius: 6px;
+    border: 3px solid #e8dcc6;
+}
+
+.store-items-container::-webkit-scrollbar-thumb:hover {
+    background-color: #7b3f00;
+}
