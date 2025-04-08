@@ -89,8 +89,8 @@ class BonusButton extends Button {
 
         const tempButton = new BonusButton(this.name, this.counter, this.#multiplier, this.#duration, clonedElement);
 
-        clonedElement.style.left = Math.floor(Math.random() * 100) + "%";
-        clonedElement.style.top = Math.floor(Math.random() * 100) + "%";
+        clonedElement.style.left = Math.floor(10 + Math.random() * 80) + "%"; // 80 so that nothing clips out of screen
+        clonedElement.style.top = Math.floor(10 + Math.random() * 80) + "%"; // range from 10-90% main screen
         clonedElement.classList.remove("hidden");
 
         document.querySelector(".main-game-area").appendChild(clonedElement);
@@ -109,6 +109,10 @@ class BonusButton extends Button {
     get duration() {
         return this.#duration;
     }
+}
+
+class BonusButtonStorm extends Button {
+
 }
 
 class ClickingButton extends Button {
