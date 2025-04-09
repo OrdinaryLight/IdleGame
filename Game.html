@@ -206,66 +206,82 @@
 						<div id="Achievement Box" class="achievement hidden">
 							<p></p>
 						</div>
-
-						<script src="Counter.js"></script>
-						<script src="Buttons.js"></script>
-						<script>
-							//Creating the Counter 
-							const counter = new Counter("counter", "pps", "Message Box", "Achievement Box", "Click Box", "Click Amount");
-
-							//// Creating below a Button object corresponding to each Button created above
-							//BigPotato
-							const bigPotato = new ClickingButton("BigPotato", counter);
-
-							// Clicker upgrades
-							const clickerUpgrade1 = new ClickerUpgradeButton("Tilled Earth", counter, 10, 1, bigPotato, 2);
-							const clickerUpgrade2 = new ClickerUpgradeButton("Better Soil", counter, 500, 6, bigPotato, 3);
-							const clickerUpgrade3 = new ClickerUpgradeButton("Greenhouse", counter, 5000, 80, bigPotato, 2.5);
-							const clickerUpgrade4 = new ClickerUpgradeButton("Micro-Irrigation", counter, 62500, 400, bigPotato, 1.7);
-
-							//The 4 types of buildings
-							const building1 = new BuildingButton("Farm", counter, 50, 1);
-							const building2 = new BuildingButton("Food truck", counter, 5000, 5);
-							const building3 = new BuildingButton("Chips factory", counter, 50000, 50);
-							const building4 = new BuildingButton("Potato cloner", counter, 200000, 250);
-
-							//The 4 types of building upgrades
-							const upgrade1 = new BuildingUpgradeButton("Harvester", counter, 5000, 2, building1);
-							const upgrade2 = new BuildingUpgradeButton("Poutine maker", counter, 50000, 2, building2);
-							const upgrade3 = new BuildingUpgradeButton("Instant fryer", counter, 500000, 2, building3);
-							const upgrade4 = new BuildingUpgradeButton("Advanced DNA", counter, 2000000, 2, building4);
-
-							//The 5 types of bonus potatoes
-							const bonus1 = new BonusButton("Sweet Potato Bonus", counter, 2, 10);
-							const bonus2 = new BonusButton("Red Potato Bonus", counter, 3, 15);
-							const bonus3 = new BonusButton("Austrian Crescent Bonus", counter, 5, 20);
-							const bonus4 = new BonusButton("Blue Potato Bonus", counter, 7, 25);
-							const bonus5 = new BonusButton("Yukon Gold Bonus", counter, 10, 30);
-
-							//The 5 buttons to buy bonus potatoes	
-							const bonusButton1 = new PotatoButton("Sweet Potato Bonus Button", counter, 1000, bonus1, 4);
-							const bonusButton2 = new PotatoButton("Red Potato Bonus Button", counter, 10000, bonus2, 6);
-							const bonusButton3 = new PotatoButton("Austrian Crescent Bonus Button", counter, 100000, bonus3, 8);
-							const bonusButton4 = new PotatoButton("Blue Potato Bonus Button", counter, 1000000, bonus4, 10);
-							const bonusButton5 = new PotatoButton("Yukon Gold Bonus Button", counter, 10000000, bonus5, 12);
+					</div>
+				</div>
+			</div>
+		</div>
 
 
-							//Creating the 5 types of bonus buttons and adding them to the counter
-							counter.addBonusButton(bonus1);
-							counter.addBonusButton(bonus2);
-							counter.addBonusButton(bonus3);
-							counter.addBonusButton(bonus4);
-							counter.addBonusButton(bonus5);
+		<script src="Counter.js"></script>
+		<script src="Buttons.js"></script>
+		<script>
+			//Creating the Counter 
+			const counter = new Counter("counter", "pps", "Message Box", "Achievement Box", "Click Box", "Click Amount");
 
-							//TODO
-							/*
-							potato storm bonus (baked potato)
-							click multiplier bonus (temporary foregn workers?? maybe a coupl)
-							redo prices
-							make buttons able to be clicked everywhere
-							
-							*/
-						</script>
+			//// Creating below a Button object corresponding to each Button created above
+			//BigPotato
+			const bigPotato = new ClickingButton("BigPotato", counter);
+
+			// Clicker upgrades
+			const clickerUpgrade1 = new ClickerUpgradeButton("Tilled Earth", counter, 10, 1, bigPotato, 2);
+			const clickerUpgrade2 = new ClickerUpgradeButton("Better Soil", counter, 500, 6, bigPotato, 3);
+			const clickerUpgrade3 = new ClickerUpgradeButton("Greenhouse", counter, 5000, 80, bigPotato, 2.5);
+			const clickerUpgrade4 = new ClickerUpgradeButton("Micro-Irrigation", counter, 62500, 400, bigPotato, 1.7);
+
+			//The 4 types of buildings
+			const building1 = new BuildingButton("Farm", counter, 50, 1);
+			const building2 = new BuildingButton("Food truck", counter, 5000, 5);
+			const building3 = new BuildingButton("Chips factory", counter, 50000, 50);
+			const building4 = new BuildingButton("Potato cloner", counter, 200000, 250);
+
+			//The 4 types of building upgrades
+			const upgrade1 = new BuildingUpgradeButton("Harvester", counter, 5000, 2, building1);
+			const upgrade2 = new BuildingUpgradeButton("Poutine maker", counter, 50000, 2, building2);
+			const upgrade3 = new BuildingUpgradeButton("Instant fryer", counter, 500000, 2, building3);
+			const upgrade4 = new BuildingUpgradeButton("Advanced DNA", counter, 2000000, 2, building4);
+
+			//The 5 types of bonus potatoes
+			const bonus1 = new MultiplicativeBonusButton("Sweet Potato Bonus", counter, 2, 10);
+			const bonus2 = new MultiplicativeBonusButton("Red Potato Bonus", counter, 3, 15);
+			const bonus3 = new MultiplicativeBonusButton("Austrian Crescent Bonus", counter, 5, 20);
+			const bonus4 = new MultiplicativeBonusButton("Blue Potato Bonus", counter, 7, 25);
+			const bonus5 = new MultiplicativeBonusButton("Yukon Gold Bonus", counter, 10, 30);
+
+			//The 5 buttons to buy bonus potatoes	
+			const bonusButton1 = new PotatoButton("Sweet Potato Bonus Button", counter, 1000, bonus1, 4);
+			const bonusButton2 = new PotatoButton("Red Potato Bonus Button", counter, 10000, bonus2, 6);
+			const bonusButton3 = new PotatoButton("Austrian Crescent Bonus Button", counter, 100000, bonus3, 8);
+			const bonusButton4 = new PotatoButton("Blue Potato Bonus Button", counter, 1000000, bonus4, 10);
+			const bonusButton5 = new PotatoButton("Yukon Gold Bonus Button", counter, 10000000, bonus5, 12);
+
+
+			//Creating the 5 types of bonus buttons and adding them to the counter
+			counter.addBonusButton(bonus1);
+			counter.addBonusButton(bonus2);
+			counter.addBonusButton(bonus3);
+			counter.addBonusButton(bonus4);
+			counter.addBonusButton(bonus5);
+
+			//TODO
+			/*
+
+
+			bonus button one up in hierchy
+			multiplicativebonusbutton in place of current bonus
+			additivebonusbutton make
+			potato storm bonus (baked potato) 
+
+
+			click multiplier bonus (temporary foregn workers?? maybe a coupl idk,)
+			redo prices
+			make buttons able to be clicked everywhere
+			potato time machine to reset prices. (maybe just bonus potato prices)
+			Make click message no background
+			Achievements unlock backgrounds 
+			statis effect to show what bonuses are active
+
+			*/
+		</script>
 </body>
 
 </html>

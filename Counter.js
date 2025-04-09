@@ -72,7 +72,8 @@ class Counter {
         this.#htmlClickAmount = document.getElementById(clickAmount);
         this.#clickAmount = 1;
 
-        this.#count = 500000000
+        this.#count = 2093485;
+
     }
 
     //Top secret...
@@ -149,13 +150,6 @@ class Counter {
         }
     }
 
-    preformBonus(multiplier, duration) {
-        this.#multiplier *= multiplier;
-        setTimeout(() => {
-            this.#multiplier /= multiplier;
-        }, duration * Counter.SECOND_IN_MS);
-    }
-
     addClick(clickAmount) {
         this.#count += clickAmount;
         this.#totalCount += clickAmount;
@@ -184,5 +178,12 @@ class Counter {
      */
     set clickAmount(amount) {
         this.#clickAmount = amount;
+    }
+
+    /**
+     * @param {number} multiplier
+     */
+    set multiplier(multiplier) {
+        this.#multiplier *= multiplier;
     }
 }

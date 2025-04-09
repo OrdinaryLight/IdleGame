@@ -23,7 +23,6 @@ class Button {
         } else if (arguments.length == 2) {
             this.#htmlButton = document.getElementById(name);
             this.#htmlButton.addEventListener("click", this.clickAction.bind(this));
-
         }
     }
 
@@ -52,12 +51,63 @@ class Button {
 }
 
 class BonusButton extends Button {
-    #multiplier;
-    #duration;
-
-    static get #MESSAGE_DURATION() {
+    static get MESSAGE_DURATION() {
         return 5; // in seconds
     }
+
+    constructor(name, counter, button) {
+        if (constructor.name === "BonusButton") {
+            throw new Error("BonusButton is an abstract class cannot create instance of it")
+        }
+
+        if (arguments.length == 3) {
+            super(name, counter, button);
+        } else if (arguments.length == 2) {
+            super(name, counter);
+        }
+
+    }
+
+    clickAction() {
+        if (constructor.name === "BonusButton") {
+            throw new Error("clickAction is abstract in class BonusButton, unable to call method from a instance of BonusButton")
+        }
+    }
+
+    clone(clonedHtmlButton) {
+        if (constructor.name === "BonusButton") {
+            throw new Error("clone is abstract in class BonusButton, unable to call method from a instance of BonusButton")
+        }
+    }
+
+    //------------------------------------------------------
+    // startBonus
+    //
+    // PURPOSE:    makes a button visable for a period of time then hides it if not already hidden
+    //------------------------------------------------------
+    startBonus() {
+        let clonedElement = this.htmlButton.cloneNode(true);
+        clonedElement.id = this.name + "-" + Date.now();
+
+        const tempButton = this.clone(clonedElement);
+
+        clonedElement.style.left = Math.floor(10 + Math.random() * 80) + "%"; // 80 so that nothing clips out of screen
+        clonedElement.style.top = Math.floor(10 + Math.random() * 80) + "%"; // range from 10-90% main screen
+        clonedElement.classList.remove("hidden");
+        document.querySelector(".main-game-area").appendChild(clonedElement);
+
+        setTimeout(() => {
+            if (document.body.contains(clonedElement)) {
+                clonedElement.remove();
+            }
+        }, this.duration * Counter.SECOND_IN_MS);
+    }
+
+}
+
+class MultiplicativeBonusButton extends BonusButton {
+    #multiplier;
+    #duration;
 
     constructor(name, counter, multiplier, duration, button) {
         if (arguments.length == 5) {
@@ -72,34 +122,20 @@ class BonusButton extends Button {
     }
 
     clickAction() {
-        console.log("clicked")
-        this.counter.showMessage(this.name + "started! <br>" + this.#multiplier + " x pps for " + this.#duration + " seconds!", BonusButton.#MESSAGE_DURATION, false);
         this.htmlButton.remove()
-        this.counter.preformBonus(this.#multiplier, this.#duration);
+        this.preformBonus();
     }
 
-    //------------------------------------------------------
-    // startBonus
-    //
-    // PURPOSE:    makes a button visable for a period of time then hides it if not already hidden
-    //------------------------------------------------------
-    startBonus() {
-        let clonedElement = this.htmlButton.cloneNode(true);
-        clonedElement.id = this.name + "-" + Date.now();
-
-        const tempButton = new BonusButton(this.name, this.counter, this.#multiplier, this.#duration, clonedElement);
-
-        clonedElement.style.left = Math.floor(10 + Math.random() * 80) + "%"; // 80 so that nothing clips out of screen
-        clonedElement.style.top = Math.floor(10 + Math.random() * 80) + "%"; // range from 10-90% main screen
-        clonedElement.classList.remove("hidden");
-
-        document.querySelector(".main-game-area").appendChild(clonedElement);
-
+    preformBonus() {
+        this.counter.showMessage(this.name + "started! <br>" + this.#multiplier + " x pps for " + this.#duration + " seconds!", BonusButton.MESSAGE_DURATION, false);
+        this.counter.multiplier = this.#multiplier;
         setTimeout(() => {
-            if (document.body.contains(clonedElement)) {
-                clonedElement.remove();
-            }
-        }, this.duration * Counter.SECOND_IN_MS);
+            this.counter.multiplier = 1 / this.#multiplier;
+        }, this.#duration * Counter.SECOND_IN_MS);
+    }
+
+    clone(clonedHtmlButton) {
+        return new MultiplicativeBonusButton(this.name, this.counter, this.#multiplier, this.#duration, clonedHtmlButton);
     }
 
     get multiplier() {
@@ -109,10 +145,24 @@ class BonusButton extends Button {
     get duration() {
         return this.#duration;
     }
+
+
 }
 
-class BonusButtonStorm extends Button {
+class AdditiveBonusButton extends BonusButton {
 
+}
+
+
+class BonusButtonStorm extends Button {
+    #AdditiveButton
+    constructor(name, counter, button) {
+        super(name, counter);
+    }
+
+    clickAction() {
+        // get random amount of them then for that many call start bonus. make bonus more up in hierchy and make normal bonus button a class or smoehitibskld lbjkh;j
+    }
 }
 
 class ClickingButton extends Button {
