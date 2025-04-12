@@ -26,8 +26,9 @@ class Counter {
     #totalCount; // total amount of potatoes made
     #nextAchievement; // amount of potatoes till the next achievement
 
-    #htmlClickAmount // the html element representing how much a click gives
+    #htmlClickAmount; // the html element representing how much a click gives
     #clickAmount;
+    #clickMultiplier;
 
     //
     //Class constants
@@ -43,7 +44,7 @@ class Counter {
     } //in seconds
 
     static get #TIME_BETWEEN_BONUS() {
-        return 90 * Counter.SECOND_IN_MS;
+        return 45 * Counter.SECOND_IN_MS;
     } // in ms
 
     static get #ACHIEVEMENT_THRESHOLD() {
@@ -71,9 +72,9 @@ class Counter {
         this.#nextAchievement = Counter.#ACHIEVEMENT_THRESHOLD;
         this.#htmlClickAmount = document.getElementById(clickAmount);
         this.#clickAmount = 1;
+        this.#clickMultiplier = 1;
 
-        this.#count = 2093485;
-
+        this.#count = 20;
     }
 
     //Top secret...
@@ -129,9 +130,8 @@ class Counter {
     }
 
     clickMessage(amount, time /* time in seconds*/) {
-
         let clonedElement = this.#htmlClick.cloneNode(true);
-        clonedElement.innerHTML = "+" + amount;
+        clonedElement.innerHTML = "+" + amount * this.#clickMultiplier;
 
         document.querySelector(".main-game-area").appendChild(clonedElement);
         clonedElement.classList.remove("hidden");
@@ -143,7 +143,7 @@ class Counter {
     }
 
     addBonusButton(bb) {
-        if (arguments.length === 1 && bb instanceof BonusButton) {
+        if (arguments.length === 1) {
             this.#bonusButtonList.push(bb);
         } else {
             throw new Error("Can't add bonus button when given parameter isn't a bonus button");
@@ -151,8 +151,8 @@ class Counter {
     }
 
     addClick(clickAmount) {
-        this.#count += clickAmount;
-        this.#totalCount += clickAmount;
+        this.#count += this.#clickMultiplier * clickAmount;
+        this.#totalCount += this.#clickMultiplier * clickAmount;
     }
 
     decreaseCount(amount) {
@@ -168,9 +168,12 @@ class Counter {
         originalButton.startBonus();
     }
 
-
     get count() {
         return this.#count;
+    }
+
+    get pps() {
+        return this.#rate * this.#multiplier;
     }
 
     /**
@@ -185,5 +188,12 @@ class Counter {
      */
     set multiplier(multiplier) {
         this.#multiplier *= multiplier;
+    }
+
+    /**
+     * @param {number} multiplier
+     */
+    set clickMultiplier(multiplier) {
+        this.#clickMultiplier *= multiplier;
     }
 }

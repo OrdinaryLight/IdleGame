@@ -225,7 +225,7 @@ h1 {
     border: 2px solid #a0d1f7;
     color: #3f4c56;
     top: 48%;
-    animation: floatUp 0.5s ease-out;
+    animation: floatUp 1.5s ease-out;
 }
 
 @keyframes floatUp {
@@ -234,7 +234,7 @@ h1 {
     }
 
     100% {
-        transform: translate(-50%, -50%);
+        transform: translate(-50%, -150%);
     }
 }
 

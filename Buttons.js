@@ -18,7 +18,7 @@ class Button {
         this.#counter = counter;
 
         if (arguments.length == 3) {
-            this.#htmlButton = button
+            this.#htmlButton = button;
             this.#htmlButton.addEventListener("click", this.clickAction.bind(this));
         } else if (arguments.length == 2) {
             this.#htmlButton = document.getElementById(name);
@@ -34,6 +34,12 @@ class Button {
     clickAction() {
         if (this.clickAction.name === "Button") {
             throw new Error("clickAction is abstract in class Button, unable to call method from a instance of Button");
+        }
+    }
+
+    clone() {
+        if (this.clone.name === "Button") {
+            throw new Error("clone is abstract in class Button, unable to call method from a instance of Button");
         }
     }
 
@@ -55,9 +61,13 @@ class BonusButton extends Button {
         return 5; // in seconds
     }
 
+    static get ONSCREEN_DURATION() {
+        return 15; // in seconds
+    }
+
     constructor(name, counter, button) {
         if (constructor.name === "BonusButton") {
-            throw new Error("BonusButton is an abstract class cannot create instance of it")
+            throw new Error("BonusButton is an abstract class cannot create instance of it");
         }
 
         if (arguments.length == 3) {
@@ -65,25 +75,24 @@ class BonusButton extends Button {
         } else if (arguments.length == 2) {
             super(name, counter);
         }
-
     }
 
     clickAction() {
-        if (constructor.name === "BonusButton") {
-            throw new Error("clickAction is abstract in class BonusButton, unable to call method from a instance of BonusButton")
+        if (this.clickAction.name === "BonusButton") {
+            throw new Error("clickAction is abstract in class BonusButton, unable to call method from a instance of BonusButton");
         }
     }
 
-    clone(clonedHtmlButton) {
-        if (constructor.name === "BonusButton") {
-            throw new Error("clone is abstract in class BonusButton, unable to call method from a instance of BonusButton")
+    clone() {
+        if (this.clone.name === "BonusButton") {
+            throw new Error("clone is abstract in class BonusButton, unable to call method from a instance of BonusButton");
         }
     }
 
     //------------------------------------------------------
     // startBonus
     //
-    // PURPOSE:    makes a button visable for a period of time then hides it if not already hidden
+    // PURPOSE:    makes a new button visible for a period of time then hides it if not already hidden
     //------------------------------------------------------
     startBonus() {
         let clonedElement = this.htmlButton.cloneNode(true);
@@ -100,12 +109,11 @@ class BonusButton extends Button {
             if (document.body.contains(clonedElement)) {
                 clonedElement.remove();
             }
-        }, this.duration * Counter.SECOND_IN_MS);
+        }, BonusButton.ONSCREEN_DURATION * Counter.SECOND_IN_MS);
     }
-
 }
 
-class MultiplicativeBonusButton extends BonusButton {
+class MultiplicativeBonus extends BonusButton {
     #multiplier;
     #duration;
 
@@ -117,12 +125,10 @@ class MultiplicativeBonusButton extends BonusButton {
         }
         this.#multiplier = multiplier;
         this.#duration = duration; // in seconds
-
-
     }
 
     clickAction() {
-        this.htmlButton.remove()
+        this.htmlButton.remove();
         this.preformBonus();
     }
 
@@ -135,7 +141,7 @@ class MultiplicativeBonusButton extends BonusButton {
     }
 
     clone(clonedHtmlButton) {
-        return new MultiplicativeBonusButton(this.name, this.counter, this.#multiplier, this.#duration, clonedHtmlButton);
+        return new MultiplicativeBonus(this.name, this.counter, this.#multiplier, this.#duration, clonedHtmlButton);
     }
 
     get multiplier() {
@@ -145,23 +151,134 @@ class MultiplicativeBonusButton extends BonusButton {
     get duration() {
         return this.#duration;
     }
-
-
 }
 
-class AdditiveBonusButton extends BonusButton {
+class MultiplicativeClickerBonus extends BonusButton {
+    #multiplier;
+    #duration;
 
-}
-
-
-class BonusButtonStorm extends Button {
-    #AdditiveButton
-    constructor(name, counter, button) {
-        super(name, counter);
+    constructor(name, counter, multiplier, duration, button) {
+        if (arguments.length == 5) {
+            super(name, counter, button);
+        } else {
+            super(name, counter);
+        }
+        this.#multiplier = multiplier;
+        this.#duration = duration; // in seconds
     }
 
     clickAction() {
-        // get random amount of them then for that many call start bonus. make bonus more up in hierchy and make normal bonus button a class or smoehitibskld lbjkh;j
+        this.htmlButton.remove();
+        this.preformBonus();
+    }
+
+    preformBonus() {
+        console.log(this);
+        this.counter.showMessage(this.name + "started! <br>" + this.#multiplier + " x pps for " + this.#duration + " seconds!", BonusButton.MESSAGE_DURATION, false);
+        this.counter.clickMultiplier = this.#multiplier;
+        setTimeout(() => {
+            this.counter.clickMultiplier = 1 / this.#multiplier;
+        }, this.#duration * Counter.SECOND_IN_MS);
+    }
+
+    clone(clonedHtmlButton) {
+        return new MultiplicativeClickerBonus(this.name, this.counter, this.#multiplier, this.#duration, clonedHtmlButton);
+    }
+
+    get multiplier() {
+        return this.#multiplier;
+    }
+
+    get duration() {
+        return this.#duration;
+    }
+}
+
+class AdditiveBonus extends BonusButton {
+    #lowerBound;
+    #upperBound;
+    #basedOnPps;
+
+    static get #MESSAGE_TIME() {
+        return 1.5;
+    }
+
+    constructor(name, counter, lowerBound, upperBound, basedOnPps, button) {
+        if (arguments.length == 6) {
+            super(name, counter, button);
+        } else if (arguments.length == 5) {
+            super(name, counter);
+        }
+        this.#basedOnPps = basedOnPps;
+        this.#lowerBound = lowerBound;
+        this.#upperBound = upperBound;
+    }
+
+    clickAction() {
+        this.htmlButton.remove();
+        this.preformBonus();
+    }
+
+    preformBonus() {
+        const percent = this.#getPercent(this.#lowerBound, this.#upperBound);
+        let am = 0;
+        if (this.#basedOnPps) {
+            am = percent * this.counter.pps;
+        } else {
+            am = percent * this.counter.count;
+        }
+        this.counter.clickMessage(am, AdditiveBonus.#MESSAGE_TIME);
+        this.counter.addClick(am); // scales with click multiplier (thought it'd be cool)
+    }
+
+    clone(clonedHtmlButton) {
+        return new AdditiveBonus(this.name, this.counter, this.#lowerBound, this.#upperBound, this.#basedOnPps, clonedHtmlButton);
+    }
+
+    #getPercent(min, max) {
+        const minCeiled = Math.ceil(min);
+        const maxFloored = Math.floor(max);
+        return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled) / 100;
+    }
+}
+
+class BonusStorm extends BonusButton {
+    #additiveBonus;
+    #lowerBound;
+    #upperBound;
+
+    constructor(name, counter, additiveBonus, lowerBound, upperBound, button) {
+        if (arguments.length == 6) {
+            super(name, counter, button);
+        } else {
+            super(name, counter);
+        }
+        this.#additiveBonus = additiveBonus;
+        this.#lowerBound = lowerBound;
+        this.#upperBound = upperBound;
+    }
+
+    clickAction() {
+        this.htmlButton.remove();
+        this.preformBonus();
+        this.counter.showMessage(this.name + " clicked", BonusButton.MESSAGE_DURATION, false);
+    }
+
+    preformBonus() {
+        let amount = this.#getAmount(this.#lowerBound, this.#upperBound);
+        for (let i = 1; i < amount; i++) {
+            this.#additiveBonus.startBonus();
+        }
+    }
+
+    clone(clonedHtmlButton) {
+        return new BonusStorm(this.name, this.counter, this.#additiveBonus, this.#lowerBound, this.#upperBound, clonedHtmlButton);
+    }
+
+    #getAmount(min, max) {
+        const minCeiled = Math.ceil(min);
+        const maxFloored = Math.floor(max);
+        return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled);
     }
 }
 
@@ -190,6 +307,10 @@ class ClickingButton extends Button {
         this.counter.addClick(this.#clickAmount);
         this.counter.clickMessage(this.#clickAmount, ClickingButton.#MESSAGE_TIME);
     }
+
+    clone(clonedHtmlButton) {
+        return new ClickingButton(this.name, this.counter, this.#clickAmount, clonedHtmlButton);
+    }
 }
 
 class CostButton extends Button {
@@ -217,6 +338,12 @@ class CostButton extends Button {
         }
     }
 
+    clone() {
+        if (this.clone.name === "CostButton") {
+            throw new Error("clone is abstract in class CostButton, unable to call method from a instance of CostButton");
+        }
+    }
+
     canPurchase() {
         return this.counter.count >= this.#price;
     }
@@ -237,6 +364,10 @@ class CostButton extends Button {
         return Math.round(this.#price * CostButton.#TWO_DECIMAL_ROUNDING) / CostButton.#TWO_DECIMAL_ROUNDING;
     }
 
+    get priceIncrease() {
+        return this.#priceIncrease;
+    }
+
     get numBought() {
         return this.#numBought;
     }
@@ -246,16 +377,81 @@ class PotatoButton extends CostButton {
     #bonusButton;
 
     constructor(name, counter, price, bb, priceMultiplier) {
+        if (constructor.name === "PotatoButton") {
+            throw new Error("PotatoButton is an abstract class cannot create instance of it");
+        }
         super(name, counter, price, priceMultiplier);
         this.#bonusButton = bb;
     }
 
     clickAction() {
+        if (this.clickAction.name === "PotatoButton") {
+            throw new Error("clickAction is abstract in class PotatoButton, unable to call method from a instance of PotatoButton");
+        }
+    }
+
+    clone() {
+        if (this.clone.name === "PotatoButton") {
+            throw new Error("clone is abstract in class PotatoButton, unable to call method from a instance of PotatoButton");
+        }
+    }
+
+    get bonusButton() {
+        return this.#bonusButton;
+    }
+}
+
+class PPSBonusButton extends PotatoButton {
+    constructor(name, counter, price, bb, priceMultiplier) {
+        super(name, counter, price, bb, priceMultiplier);
+    }
+
+    clickAction() {
         if (this.canPurchase()) {
             this.purchase();
-            this.updateText(this.name + "<br>Cost: " + this.price + "<br>Prod: " + this.#bonusButton.multiplier + "x for " + this.#bonusButton.duration + "s");
-            this.#bonusButton.startBonus();
+            this.updateText(this.name + "<br>Cost: " + this.price + "<br>Prod: " + this.bonusButton.multiplier + "x for " + this.bonusButton.duration + "s");
+            this.bonusButton.startBonus();
         }
+    }
+
+    clone() {
+        return new PPSBonusButton(this.name, this.counter, this.price, this.bonusButton, this.priceIncrease);
+    }
+}
+
+class ClickerBonusButton extends PotatoButton {
+    constructor(name, counter, price, bb, priceMultiplier) {
+        super(name, counter, price, bb, priceMultiplier);
+    }
+
+    clickAction() {
+        if (this.canPurchase()) {
+            this.purchase();
+            this.updateText(this.name + "<br>Cost: " + this.price + "<br>Click : " + this.bonusButton.multiplier + "x for " + this.bonusButton.duration + "s");
+            this.bonusButton.startBonus();
+        }
+    }
+
+    clone() {
+        return new ClickerBonusButton(this.name, this.counter, this.price, this.bonusButton, this.priceIncrease);
+    }
+}
+
+class PotatoStormBonusButton extends PotatoButton {
+    constructor(name, counter, price, bb, priceMultiplier) {
+        super(name, counter, price, bb, priceMultiplier);
+    }
+
+    clickAction() {
+        if (this.canPurchase()) {
+            this.purchase();
+            this.updateText(this.name + "<br>Cost: " + this.price + "<br>Spawns " + this.bonusButton.name);
+            this.bonusButton.startBonus();
+        }
+    }
+
+    clone() {
+        return new PotatoStormBonusButton(this.name, this.counter, this.price, this.bonusButton, this.priceIncrease);
     }
 }
 
@@ -279,6 +475,10 @@ class BuildingButton extends CostButton {
         }
     }
 
+    clone() {
+        return new BuildingButton(this.name, this.counter, this.price, this.#rateIncrease);
+    }
+
     multiplyRate(multiplier) {
         this.#rateIncrease *= multiplier;
         this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>Adds: " + this.#rateIncrease + " pps");
@@ -287,7 +487,6 @@ class BuildingButton extends CostButton {
     get rateIncrease() {
         return this.#rateIncrease;
     }
-
 }
 
 class UpgradeButton extends CostButton {
@@ -309,15 +508,19 @@ class UpgradeButton extends CostButton {
         }
     }
 
+    clone() {
+        if (this.clone.name === "UpgradeButton") {
+            throw new Error("UpgradeButton is an abstract class");
+        }
+    }
+
     get improvement() {
         return this.#improvement;
     }
-
-
 }
 
 class ClickerUpgradeButton extends UpgradeButton {
-    #clicker
+    #clicker;
 
     constructor(name, counter, price, improvement, clicker, priceMultiplier) {
         super(name, counter, price, improvement, priceMultiplier);
@@ -329,8 +532,11 @@ class ClickerUpgradeButton extends UpgradeButton {
             this.purchase();
             this.#clicker.increaseClick(this.improvement);
             this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>Click adds +" + this.improvement);
-
         }
+    }
+
+    clone() {
+        return new ClickerUpgradeButton(this.name, this.counter, this.price, this.improvement, this.#clicker, this.priceIncrease);
     }
 }
 
@@ -353,5 +559,9 @@ class BuildingUpgradeButton extends UpgradeButton {
             this.#building.multiplyRate(this.improvement);
             this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>" + this.#building.name + " prod. x " + this.improvement);
         }
+    }
+
+    clone() {
+        return new BuildingUpgradeButton(this.name, this.counter, this.improvement, this.#building);
     }
 }

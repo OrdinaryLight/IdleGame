@@ -18,6 +18,13 @@
 			alt="Austrian Crescent Potato Button">
 		<img id="Blue Potato Bonus" class="image-bonus hidden" src="Figs/BluePotato.png" alt="Blue Potato Button">
 		<img id="Yukon Gold Bonus" class="image-bonus hidden" src="Figs/YukonGold.png" alt="Yukon Gold Potato Button">
+		<img id="Baked Potato Bonus" class="image-bonus hidden" src="Figs/BakedPotato.png" alt="BakedPotato Potato Button">
+		<img id="Fries Bonus" class="image-bonus hidden" src="Figs/Fries.png" alt="Fries Potato Button">
+		<img id="Baked Potato Storm Bonus" class="image-bonus hidden" src="Figs/BakedPotato.png" alt="BakedPotato Storm Button">
+		<img id="Fries Storm Bonus" class="image-bonus hidden" src="Figs/Fries.png" alt="Fries Storm Button">
+		<img id="Curly Fries Bonus" class="image-bonus hidden" src="Figs/CurlyFries.png" alt="Curly Fries Button">
+		<img id="Potato Wedges Bonus" class="image-bonus hidden" src="Figs/PotatoWedges.png" alt="Potato Wedges Button">
+
 
 		<!-- Left section: Main game area with potato and counters -->
 		<div class="main-game-area">
@@ -193,6 +200,33 @@
 								Bonus<br>Cost:
 								10000000<br>Prod: 10x for 30s</span>
 						</div>
+						<!-- Baked Potato Storm Button -->
+						<div class="image-button-container">
+							<img id="Baked Potato Storm Bonus Button" class="image-button" src="Figs/BakedPotato.png"
+								alt="Baked Potato Storm Button">
+							<span id="Baked Potato Storm Bonus Button-text" class="button-text">Baked Potato
+								Bonus<br>Cost: 10<br>Spawns Baked Potato Storm Bonus</span>
+						</div><!-- Fries Potato Storm Button -->
+						<div class="image-button-container">
+							<img id="Fries Storm Bonus Button" class="image-button" src="Figs/Fries.png"
+								alt="Fries Storm Button">
+							<span id="Fries Storm Bonus Button-text" class="button-text">Fries
+								Bonus<br>Cost: 40<br>Spawns Fries Storm Bonus</span>
+						</div>
+						<div class="image-button-container">
+							<img id="Curly Fries Bonus Button" class="image-button" src="Figs/CurlyFries.png"
+								alt="Curly Fries Button">
+							<span id="Curly Fries Bonus Button-text" class="button-text">Curly Fries
+								Bonus<br>Cost:
+								6<br>Clcik: 10x for 12s</span>
+						</div>
+						<div class="image-button-container">
+							<img id="Potato Wedges Bonus Button" class="image-button" src="Figs/PotatoWedges.png"
+								alt="Potato Wedges Button">
+							<span id="Potato Wedges Bonus Button-text" class="button-text">Potato Wedges
+								Bonus<br>Cost:
+								2000<br>Click: 5x for 300s</span>
+						</div>
 					</div>
 					<div>
 
@@ -241,45 +275,52 @@
 			const upgrade4 = new BuildingUpgradeButton("Advanced DNA", counter, 2000000, 2, building4);
 
 			//The 5 types of bonus potatoes
-			const bonus1 = new MultiplicativeBonusButton("Sweet Potato Bonus", counter, 2, 10);
-			const bonus2 = new MultiplicativeBonusButton("Red Potato Bonus", counter, 3, 15);
-			const bonus3 = new MultiplicativeBonusButton("Austrian Crescent Bonus", counter, 5, 20);
-			const bonus4 = new MultiplicativeBonusButton("Blue Potato Bonus", counter, 7, 25);
-			const bonus5 = new MultiplicativeBonusButton("Yukon Gold Bonus", counter, 10, 30);
+			const bonus1 = new MultiplicativeBonus("Sweet Potato Bonus", counter, 2, 10);
+			const bonus2 = new MultiplicativeBonus("Red Potato Bonus", counter, 3, 15);
+			const bonus3 = new MultiplicativeBonus("Austrian Crescent Bonus", counter, 5, 20);
+			const bonus4 = new MultiplicativeBonus("Blue Potato Bonus", counter, 7, 25);
+			const bonus5 = new MultiplicativeBonus("Yukon Gold Bonus", counter, 10, 30);
+			const bonus6 = new AdditiveBonus("Baked Potato Bonus", counter, 1000, 50000, true); // true means amount is calculated from pps
+			const bonus7 = new AdditiveBonus("Fries Bonus", counter, 10, 300, false); // false means amount is calculated from current potatoes
+			const bonus8 = new BonusStorm("Baked Potato Storm Bonus", counter, bonus6, 5, 30); 
+			const bonus9 = new BonusStorm("Fries Storm Bonus", counter, bonus7, 5, 30); 
+			const bonus10 = new MultiplicativeClickerBonus("Curly Fries Bonus", counter, 10, 12);
+			const bonus11 = new MultiplicativeClickerBonus("Potato Wedges Bonus", counter, 5, 300);
+
 
 			//The 5 buttons to buy bonus potatoes	
-			const bonusButton1 = new PotatoButton("Sweet Potato Bonus Button", counter, 1000, bonus1, 4);
-			const bonusButton2 = new PotatoButton("Red Potato Bonus Button", counter, 10000, bonus2, 6);
-			const bonusButton3 = new PotatoButton("Austrian Crescent Bonus Button", counter, 100000, bonus3, 8);
-			const bonusButton4 = new PotatoButton("Blue Potato Bonus Button", counter, 1000000, bonus4, 10);
-			const bonusButton5 = new PotatoButton("Yukon Gold Bonus Button", counter, 10000000, bonus5, 12);
+			const bonusButton1 = new PPSBonusButton("Sweet Potato Bonus Button", counter, 1000, bonus1, 4);
+			const bonusButton2 = new PPSBonusButton("Red Potato Bonus Button", counter, 10000, bonus2, 6);
+			const bonusButton3 = new PPSBonusButton("Austrian Crescent Bonus Button", counter, 100000, bonus3, 8);
+			const bonusButton4 = new PPSBonusButton("Blue Potato Bonus Button", counter, 1000000, bonus4, 10);
+			const bonusButton5 = new PPSBonusButton("Yukon Gold Bonus Button", counter, 10000000, bonus5, 12);
+			const bonusButton6 = new PotatoStormBonusButton("Baked Potato Storm Bonus Button", counter, 10, bonus8, 12);
+			const bonusButton7 = new PotatoStormBonusButton("Fries Storm Bonus Button", counter, 40, bonus9, 12);
+			const bonusButton8 = new ClickerBonusButton("Curly Fries Bonus Button", counter, 6, bonus10, 3);
+			const bonusButton9 = new ClickerBonusButton("Potato Wedges Bonus Button", counter, 2000, bonus11, 4);
 
 
-			//Creating the 5 types of bonus buttons and adding them to the counter
+
+			//Creating the types of bonus buttons and adding them to the counter
 			counter.addBonusButton(bonus1);
 			counter.addBonusButton(bonus2);
 			counter.addBonusButton(bonus3);
 			counter.addBonusButton(bonus4);
 			counter.addBonusButton(bonus5);
+			counter.addBonusButton(bonus6);
+			counter.addBonusButton(bonus7);
+			counter.addBonusButton(bonus8);
+			counter.addBonusButton(bonus9);
 
 			//TODO
 			/*
 
-
-			bonus button one up in hierchy
-			multiplicativebonusbutton in place of current bonus
-			additivebonusbutton make
-			potato storm bonus (baked potato) 
-
-
-			click multiplier bonus (temporary foregn workers?? maybe a coupl idk,)
-			redo prices
-			make buttons able to be clicked everywhere
 			potato time machine to reset prices. (maybe just bonus potato prices)
-			Make click message no background
-			Achievements unlock backgrounds 
-			statis effect to show what bonuses are active
 
+			Make click message no background
+			make buttons able to be clicked everywhere
+			redo prices
+			Achievements unlock backgrounds 
 			*/
 		</script>
 </body>
