@@ -230,7 +230,7 @@
 						<div class="image-button-container">
 							<img id="Potato Time Machine Button" class="image-button" src="Figs/PotatoTimeMachine.png"
 								alt="Potato Time Machine Button">
-							<span id="Potato Time Machine Button-text" class="button-text">Resets cost of all bonus potato buttons<br>Cost: 100</span>
+							<span id="Potato Time Machine Button-text" class="button-text">Potato Time Machine: Resets cost of all bonus potato buttons<br>Cost: 100</span>
 						</div>
 					</div>
 					<div>
@@ -303,7 +303,7 @@
 			const bonusButton7 = new PotatoStormBonusButton("Fries Storm Bonus Button", counter, 40, bonus9, 12);
 			const bonusButton8 = new ClickerBonusButton("Curly Fries Bonus Button", counter, 6, bonus10, 3);
 			const bonusButton9 = new ClickerBonusButton("Potato Wedges Bonus Button", counter, 2000, bonus11, 4);
-			//const bonusButton10 = new "Potato Time Machine Button" 
+			const bonusButton10 = new TimeMachineButton("Potato Time Machine Button", counter, 100, 1000, new Array(bonusButton1, bonusButton2, bonusButton3, bonusButton4, bonusButton5, bonusButton6, bonusButton7, bonusButton8, bonusButton9)); 
 
 
 
@@ -317,12 +317,11 @@
 			counter.addBonusButton(bonus7);
 			counter.addBonusButton(bonus8);
 			counter.addBonusButton(bonus9);
+			counter.addBonusButton(bonus10);
+			counter.addBonusButton(bonus11);
 
 			//TODO
 			/*
-
-			potato time machine to reset prices. (maybe just bonus potato prices)
-
 			make buttons able to be clicked everywhere
 			redo prices
 			*/

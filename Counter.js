@@ -74,7 +74,7 @@ class Counter {
         this.#clickAmount = 1;
         this.#clickMultiplier = 1;
 
-        this.#count = 20;
+        this.#count = 20000000;
     }
 
     //Top secret...
@@ -174,6 +174,10 @@ class Counter {
 
     get pps() {
         return this.#rate * this.#multiplier;
+    }
+
+    get bonuses() {
+        return this.#bonusButtonList;
     }
 
     /**
