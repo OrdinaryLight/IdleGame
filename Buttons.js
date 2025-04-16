@@ -19,9 +19,14 @@ class Button {
 
         if (arguments.length == 3) {
             this.#htmlButton = button;
-            this.#htmlButton.addEventListener("click", this.clickAction.bind(this));
         } else if (arguments.length == 2) {
             this.#htmlButton = document.getElementById(name);
+        }
+
+        const container = this.#htmlButton.closest(".image-button-container");
+        if (container) {
+            container.addEventListener("click", this.clickAction.bind(this));
+        } else {
             this.#htmlButton.addEventListener("click", this.clickAction.bind(this));
         }
     }
@@ -100,8 +105,8 @@ class BonusButton extends Button {
 
         const tempButton = this.clone(clonedElement);
 
-        clonedElement.style.left = Math.floor(10 + Math.random() * 80) + "%"; // 80 so that nothing clips out of screen
-        clonedElement.style.top = Math.floor(10 + Math.random() * 80) + "%"; // range from 10-90% main screen
+        clonedElement.style.left = Math.floor(15 + Math.random() * 70) + "%"; // 70 so that nothing clips out of screen
+        clonedElement.style.top = Math.floor(15 + Math.random() * 70) + "%"; // range from 15-85% main screen
         clonedElement.classList.remove("hidden");
         document.querySelector(".main-game-area").appendChild(clonedElement);
 

@@ -60,7 +60,7 @@
 						<!-- Food truck building button -->
 						<div class="image-button-container">
 							<img id="Food truck" class="image-button" src="Figs/FoodTruck.png" alt="Food Truck Button">
-							<span id="Food truck-text" class="button-text">0 Food truck<br>Cost: 5000<br>Adds: 5
+							<span id="Food truck-text" class="button-text">0 Food truck<br>Cost: 500<br>Adds: 5
 								pps</span>
 						</div>
 
@@ -68,7 +68,7 @@
 						<div class="image-button-container">
 							<img id="Chips factory" class="image-button" src="Figs/Factory.png"
 								alt="Chips factory Button">
-							<span id="Chips factory-text" class="button-text">0 Chips factory<br>Cost: 50000<br>Adds: 50
+							<span id="Chips factory-text" class="button-text">0 Chips factory<br>Cost: 5000<br>Adds: 50
 								pps</span>
 						</div>
 
@@ -76,7 +76,7 @@
 						<div class="image-button-container">
 							<img id="Potato cloner" class="image-button" src="Figs/Cloner.png"
 								alt="Potato Cloner Button">
-							<span id="Potato cloner-text" class="button-text">0 Potato cloner<br>Cost: 200000<br>Adds:
+							<span id="Potato cloner-text" class="button-text">0 Potato cloner<br>Cost: 20000<br>Adds:
 								250 pps</span>
 						</div>
 					</div>
@@ -269,9 +269,9 @@
 
 			//The 4 types of buildings
 			const building1 = new BuildingButton("Farm", counter, 50, 1);
-			const building2 = new BuildingButton("Food truck", counter, 5000, 5);
-			const building3 = new BuildingButton("Chips factory", counter, 50000, 50);
-			const building4 = new BuildingButton("Potato cloner", counter, 200000, 250);
+			const building2 = new BuildingButton("Food truck", counter, 500, 5);
+			const building3 = new BuildingButton("Chips factory", counter, 5000, 50);
+			const building4 = new BuildingButton("Potato cloner", counter, 20000, 250);
 
 			//The 4 types of building upgrades
 			const upgrade1 = new BuildingUpgradeButton("Harvester", counter, 5000, 2, building1);
@@ -286,7 +286,7 @@
 			const bonus4 = new MultiplicativeBonus("Blue Potato Bonus", counter, 7, 25);
 			const bonus5 = new MultiplicativeBonus("Yukon Gold Bonus", counter, 10, 30);
 			const bonus6 = new AdditiveBonus("Baked Potato Bonus", counter, 1000, 50000, true); // true means amount is calculated from pps
-			const bonus7 = new AdditiveBonus("Fries Bonus", counter, 10, 300, false); // false means amount is calculated from current potatoes
+			const bonus7 = new AdditiveBonus("Fries Bonus", counter, 10, 30, false); // false means amount is calculated from current potatoes
 			const bonus8 = new BonusStorm("Baked Potato Storm Bonus", counter, bonus6, 5, 30); 
 			const bonus9 = new BonusStorm("Fries Storm Bonus", counter, bonus7, 5, 30); 
 			const bonus10 = new MultiplicativeClickerBonus("Curly Fries Bonus", counter, 10, 12);
@@ -320,11 +320,6 @@
 			counter.addBonusButton(bonus10);
 			counter.addBonusButton(bonus11);
 
-			//TODO
-			/*
-			make buttons able to be clicked everywhere
-			redo prices
-			*/
 		</script>
 </body>
 
