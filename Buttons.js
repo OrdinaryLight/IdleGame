@@ -19,9 +19,14 @@ class Button {
 
         if (arguments.length == 3) {
             this.#htmlButton = button;
-            this.#htmlButton.addEventListener("click", this.clickAction.bind(this));
         } else if (arguments.length == 2) {
             this.#htmlButton = document.getElementById(name);
+        }
+
+        const container = this.#htmlButton.closest(".image-button-container");
+        if (container) {
+            container.addEventListener("click", this.clickAction.bind(this));
+        } else {
             this.#htmlButton.addEventListener("click", this.clickAction.bind(this));
         }
     }
@@ -100,8 +105,8 @@ class BonusButton extends Button {
 
         const tempButton = this.clone(clonedElement);
 
-        clonedElement.style.left = Math.floor(10 + Math.random() * 80) + "%"; // 80 so that nothing clips out of screen
-        clonedElement.style.top = Math.floor(10 + Math.random() * 80) + "%"; // range from 10-90% main screen
+        clonedElement.style.left = Math.floor(15 + Math.random() * 70) + "%"; // 70 so that nothing clips out of screen
+        clonedElement.style.top = Math.floor(15 + Math.random() * 70) + "%"; // range from 15-85% main screen
         clonedElement.classList.remove("hidden");
         document.querySelector(".main-game-area").appendChild(clonedElement);
 
@@ -173,7 +178,6 @@ class MultiplicativeClickerBonus extends BonusButton {
     }
 
     preformBonus() {
-        console.log(this);
         this.counter.showMessage(this.name + "started! <br>" + this.#multiplier + " x pps for " + this.#duration + " seconds!", BonusButton.MESSAGE_DURATION, false);
         this.counter.clickMultiplier = this.#multiplier;
         setTimeout(() => {
@@ -317,6 +321,7 @@ class CostButton extends Button {
     #price;
     #priceIncrease;
     #numBought;
+    #initialPrice;
 
     static get #TWO_DECIMAL_ROUNDING() {
         return 100;
@@ -330,6 +335,7 @@ class CostButton extends Button {
         this.#price = price;
         this.#priceIncrease = priceIncrease;
         this.#numBought = 0;
+        this.#initialPrice = price;
     }
 
     clickAction() {
@@ -341,6 +347,12 @@ class CostButton extends Button {
     clone() {
         if (this.clone.name === "CostButton") {
             throw new Error("clone is abstract in class CostButton, unable to call method from a instance of CostButton");
+        }
+    }
+
+    showInfo() {
+        if (this.showInfo.name === "CostButton") {
+            throw new Error("showInfo is abstract in class CostButton, unable to call method from a instance of CostButton");
         }
     }
 
@@ -360,6 +372,11 @@ class CostButton extends Button {
         this.#price *= this.#priceIncrease;
     }
 
+    resetPrice() {
+        this.#price = this.#initialPrice;
+        this.showInfo();
+    }
+
     get price() {
         return Math.round(this.#price * CostButton.#TWO_DECIMAL_ROUNDING) / CostButton.#TWO_DECIMAL_ROUNDING;
     }
@@ -370,6 +387,33 @@ class CostButton extends Button {
 
     get numBought() {
         return this.#numBought;
+    }
+}
+
+class TimeMachineButton extends CostButton {
+    #bonusList;
+
+    constructor(name, counter, price, priceIncrease, bonusList) {
+        super(name, counter, price, priceIncrease);
+        this.#bonusList = bonusList;
+    }
+
+    clickAction() {
+        if (this.canPurchase()) {
+            this.purchase();
+            this.showInfo();
+            for (let i = 0; i < this.#bonusList.length; i++) {
+                this.#bonusList[i].resetPrice();
+            }
+        }
+    }
+
+    clone() {
+        return new TimeMachineButton(this.name, this.counter, this.price, this.priceIncrease);
+    }
+
+    showInfo() {
+        this.updateText(this.name + ": Resets cost of all bonus potato buttons<br>Cost: " + this.price);
     }
 }
 
@@ -396,6 +440,12 @@ class PotatoButton extends CostButton {
         }
     }
 
+    showInfo() {
+        if (this.showInfo.name === "PotatoButton") {
+            throw new Error("showInfo is abstract in class PotatoButton, unable to call method from a instance of PotatoButton");
+        }
+    }
+
     get bonusButton() {
         return this.#bonusButton;
     }
@@ -409,13 +459,17 @@ class PPSBonusButton extends PotatoButton {
     clickAction() {
         if (this.canPurchase()) {
             this.purchase();
-            this.updateText(this.name + "<br>Cost: " + this.price + "<br>Prod: " + this.bonusButton.multiplier + "x for " + this.bonusButton.duration + "s");
+            this.showInfo();
             this.bonusButton.startBonus();
         }
     }
 
     clone() {
         return new PPSBonusButton(this.name, this.counter, this.price, this.bonusButton, this.priceIncrease);
+    }
+
+    showInfo() {
+        this.updateText(this.name + "<br>Cost: " + this.price + "<br>Prod: " + this.bonusButton.multiplier + "x for " + this.bonusButton.duration + "s");
     }
 }
 
@@ -427,13 +481,17 @@ class ClickerBonusButton extends PotatoButton {
     clickAction() {
         if (this.canPurchase()) {
             this.purchase();
-            this.updateText(this.name + "<br>Cost: " + this.price + "<br>Click : " + this.bonusButton.multiplier + "x for " + this.bonusButton.duration + "s");
+            this.showInfo();
             this.bonusButton.startBonus();
         }
     }
 
     clone() {
         return new ClickerBonusButton(this.name, this.counter, this.price, this.bonusButton, this.priceIncrease);
+    }
+
+    showInfo() {
+        this.updateText(this.name + "<br>Cost: " + this.price + "<br>Click : " + this.bonusButton.multiplier + "x for " + this.bonusButton.duration + "s");
     }
 }
 
@@ -445,13 +503,17 @@ class PotatoStormBonusButton extends PotatoButton {
     clickAction() {
         if (this.canPurchase()) {
             this.purchase();
-            this.updateText(this.name + "<br>Cost: " + this.price + "<br>Spawns " + this.bonusButton.name);
+            this.showInfo();
             this.bonusButton.startBonus();
         }
     }
 
     clone() {
         return new PotatoStormBonusButton(this.name, this.counter, this.price, this.bonusButton, this.priceIncrease);
+    }
+
+    showInfo() {
+        this.updateText(this.name + "<br>Cost: " + this.price + "<br>Spawns " + this.bonusButton.name);
     }
 }
 
@@ -471,12 +533,16 @@ class BuildingButton extends CostButton {
         if (this.canPurchase()) {
             this.purchase();
             this.counter.increaseRate(this.#rateIncrease);
-            this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>Adds: " + this.#rateIncrease + " pps");
+            this.showInfo();
         }
     }
 
     clone() {
         return new BuildingButton(this.name, this.counter, this.price, this.#rateIncrease);
+    }
+
+    showInfo() {
+        this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>Adds: " + this.#rateIncrease + " pps");
     }
 
     multiplyRate(multiplier) {
@@ -531,12 +597,16 @@ class ClickerUpgradeButton extends UpgradeButton {
         if (this.canPurchase()) {
             this.purchase();
             this.#clicker.increaseClick(this.improvement);
-            this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>Click adds +" + this.improvement);
+            this.showInfo();
         }
     }
 
     clone() {
         return new ClickerUpgradeButton(this.name, this.counter, this.price, this.improvement, this.#clicker, this.priceIncrease);
+    }
+
+    showInfo() {
+        this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>Click adds +" + this.improvement);
     }
 }
 
@@ -557,11 +627,15 @@ class BuildingUpgradeButton extends UpgradeButton {
             this.purchase();
             this.counter.increaseRate(this.#building.numBought * this.#building.rateIncrease * (this.improvement - 1));
             this.#building.multiplyRate(this.improvement);
-            this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>" + this.#building.name + " prod. x " + this.improvement);
+            this.showInfo();
         }
     }
 
     clone() {
         return new BuildingUpgradeButton(this.name, this.counter, this.improvement, this.#building);
+    }
+
+    showInfo() {
+        this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>" + this.#building.name + " prod. x " + this.improvement);
     }
 }

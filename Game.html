@@ -60,7 +60,7 @@
 						<!-- Food truck building button -->
 						<div class="image-button-container">
 							<img id="Food truck" class="image-button" src="Figs/FoodTruck.png" alt="Food Truck Button">
-							<span id="Food truck-text" class="button-text">0 Food truck<br>Cost: 5000<br>Adds: 5
+							<span id="Food truck-text" class="button-text">0 Food truck<br>Cost: 500<br>Adds: 5
 								pps</span>
 						</div>
 
@@ -68,7 +68,7 @@
 						<div class="image-button-container">
 							<img id="Chips factory" class="image-button" src="Figs/Factory.png"
 								alt="Chips factory Button">
-							<span id="Chips factory-text" class="button-text">0 Chips factory<br>Cost: 50000<br>Adds: 50
+							<span id="Chips factory-text" class="button-text">0 Chips factory<br>Cost: 5000<br>Adds: 50
 								pps</span>
 						</div>
 
@@ -76,7 +76,7 @@
 						<div class="image-button-container">
 							<img id="Potato cloner" class="image-button" src="Figs/Cloner.png"
 								alt="Potato Cloner Button">
-							<span id="Potato cloner-text" class="button-text">0 Potato cloner<br>Cost: 200000<br>Adds:
+							<span id="Potato cloner-text" class="button-text">0 Potato cloner<br>Cost: 20000<br>Adds:
 								250 pps</span>
 						</div>
 					</div>
@@ -227,6 +227,11 @@
 								Bonus<br>Cost:
 								2000<br>Click: 5x for 300s</span>
 						</div>
+						<div class="image-button-container">
+							<img id="Potato Time Machine Button" class="image-button" src="Figs/PotatoTimeMachine.png"
+								alt="Potato Time Machine Button">
+							<span id="Potato Time Machine Button-text" class="button-text">Potato Time Machine: Resets cost of all bonus potato buttons<br>Cost: 100</span>
+						</div>
 					</div>
 					<div>
 
@@ -264,9 +269,9 @@
 
 			//The 4 types of buildings
 			const building1 = new BuildingButton("Farm", counter, 50, 1);
-			const building2 = new BuildingButton("Food truck", counter, 5000, 5);
-			const building3 = new BuildingButton("Chips factory", counter, 50000, 50);
-			const building4 = new BuildingButton("Potato cloner", counter, 200000, 250);
+			const building2 = new BuildingButton("Food truck", counter, 500, 5);
+			const building3 = new BuildingButton("Chips factory", counter, 5000, 50);
+			const building4 = new BuildingButton("Potato cloner", counter, 20000, 250);
 
 			//The 4 types of building upgrades
 			const upgrade1 = new BuildingUpgradeButton("Harvester", counter, 5000, 2, building1);
@@ -281,7 +286,7 @@
 			const bonus4 = new MultiplicativeBonus("Blue Potato Bonus", counter, 7, 25);
 			const bonus5 = new MultiplicativeBonus("Yukon Gold Bonus", counter, 10, 30);
 			const bonus6 = new AdditiveBonus("Baked Potato Bonus", counter, 1000, 50000, true); // true means amount is calculated from pps
-			const bonus7 = new AdditiveBonus("Fries Bonus", counter, 10, 300, false); // false means amount is calculated from current potatoes
+			const bonus7 = new AdditiveBonus("Fries Bonus", counter, 10, 30, false); // false means amount is calculated from current potatoes
 			const bonus8 = new BonusStorm("Baked Potato Storm Bonus", counter, bonus6, 5, 30); 
 			const bonus9 = new BonusStorm("Fries Storm Bonus", counter, bonus7, 5, 30); 
 			const bonus10 = new MultiplicativeClickerBonus("Curly Fries Bonus", counter, 10, 12);
@@ -298,6 +303,7 @@
 			const bonusButton7 = new PotatoStormBonusButton("Fries Storm Bonus Button", counter, 40, bonus9, 12);
 			const bonusButton8 = new ClickerBonusButton("Curly Fries Bonus Button", counter, 6, bonus10, 3);
 			const bonusButton9 = new ClickerBonusButton("Potato Wedges Bonus Button", counter, 2000, bonus11, 4);
+			const bonusButton10 = new TimeMachineButton("Potato Time Machine Button", counter, 100, 1000, new Array(bonusButton1, bonusButton2, bonusButton3, bonusButton4, bonusButton5, bonusButton6, bonusButton7, bonusButton8, bonusButton9)); 
 
 
 
@@ -311,17 +317,9 @@
 			counter.addBonusButton(bonus7);
 			counter.addBonusButton(bonus8);
 			counter.addBonusButton(bonus9);
+			counter.addBonusButton(bonus10);
+			counter.addBonusButton(bonus11);
 
-			//TODO
-			/*
-
-			potato time machine to reset prices. (maybe just bonus potato prices)
-
-			Make click message no background
-			make buttons able to be clicked everywhere
-			redo prices
-			Achievements unlock backgrounds 
-			*/
 		</script>
 </body>
 
