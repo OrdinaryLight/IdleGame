@@ -15,7 +15,7 @@ Created for fun by building upon an assignment (found in the original assignment
 
 - **Pure JavaScript**: No frameworks required
 - **Object-Oriented Design**: Uses class inheritance for different button types
-- **Responsive Design**: Works on different screen sizes
+- **Responsive Design**: Works on different screen sizes (pc)
 
 ## Setup
 
