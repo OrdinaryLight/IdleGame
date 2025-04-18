@@ -1,5 +1,12 @@
 "use strict";
 
+/*
+In general all classes have a constructor, a clone method and a clickAction method. 
+these do different things in different class but clickAction is usually called when a button is clicked.
+clone is called when a button needs to be copied. sometimes it takes a parameter that is a copy of the htmlButton
+*/
+
+// Button base class
 class Button {
     #name;
     #counter;
@@ -31,6 +38,7 @@ class Button {
         }
     }
 
+    // general text update for buttons
     updateText(newText) {
         document.getElementById(this.name + Button.TEXT_ATTRIBUTE).innerHTML = newText;
     }
@@ -61,6 +69,7 @@ class Button {
     }
 }
 
+// BonusButton base class
 class BonusButton extends Button {
     static get MESSAGE_DURATION() {
         return 5; // in seconds
@@ -94,11 +103,7 @@ class BonusButton extends Button {
         }
     }
 
-    //------------------------------------------------------
-    // startBonus
-    //
-    // PURPOSE:    makes a new button visible for a period of time then hides it if not already hidden
-    //------------------------------------------------------
+    //makes a new button visible for a period of time then hides it if not already hidden
     startBonus() {
         let clonedElement = this.htmlButton.cloneNode(true);
         clonedElement.id = this.name + "-" + Date.now();
@@ -118,6 +123,7 @@ class BonusButton extends Button {
     }
 }
 
+// bonus button that when clicked, multiplies pps for a duration
 class MultiplicativeBonus extends BonusButton {
     #multiplier;
     #duration;
@@ -158,6 +164,7 @@ class MultiplicativeBonus extends BonusButton {
     }
 }
 
+// bonus button that when clicked, multiplies amount gained for clicks for a duration
 class MultiplicativeClickerBonus extends BonusButton {
     #multiplier;
     #duration;
@@ -198,6 +205,7 @@ class MultiplicativeClickerBonus extends BonusButton {
     }
 }
 
+// bonus button that when clicked, adds an amount of potatoes
 class AdditiveBonus extends BonusButton {
     #lowerBound;
     #upperBound;
@@ -246,6 +254,7 @@ class AdditiveBonus extends BonusButton {
     }
 }
 
+// bonus button that when clicked spawns a random amount of a certain type of bonus button
 class BonusStorm extends BonusButton {
     #additiveBonus;
     #lowerBound;
@@ -286,6 +295,7 @@ class BonusStorm extends BonusButton {
     }
 }
 
+// this is the button you click to gain potatoes
 class ClickingButton extends Button {
     #clickAmount;
 
@@ -317,15 +327,12 @@ class ClickingButton extends Button {
     }
 }
 
+// A base class for any button associated with a cost that increases upon purchase
 class CostButton extends Button {
     #price;
     #priceIncrease;
     #numBought;
     #initialPrice;
-
-    static get #TWO_DECIMAL_ROUNDING() {
-        return 100;
-    }
 
     constructor(name, counter, price, priceIncrease) {
         super(name, counter);
@@ -364,8 +371,8 @@ class CostButton extends Button {
         if (this.canPurchase()) {
             this.counter.decreaseCount(this.#price);
             this.increasePrice();
+            this.#numBought += 1;
         }
-        this.#numBought += 1;
     }
 
     increasePrice() {
@@ -378,7 +385,7 @@ class CostButton extends Button {
     }
 
     get price() {
-        return Math.round(this.#price * CostButton.#TWO_DECIMAL_ROUNDING) / CostButton.#TWO_DECIMAL_ROUNDING;
+        return Math.round(this.#price * 100) / 100; // rounds prices To 2 digits
     }
 
     get priceIncrease() {
@@ -390,6 +397,7 @@ class CostButton extends Button {
     }
 }
 
+// Button that resets a given list of CostButtons to their original price
 class TimeMachineButton extends CostButton {
     #bonusList;
 
@@ -417,6 +425,7 @@ class TimeMachineButton extends CostButton {
     }
 }
 
+// base class that acts as a purchasable bonus button
 class PotatoButton extends CostButton {
     #bonusButton;
 
@@ -451,6 +460,7 @@ class PotatoButton extends CostButton {
     }
 }
 
+// a puchasable button that spawns a multiplicative bonus button for your pps
 class PPSBonusButton extends PotatoButton {
     constructor(name, counter, price, bb, priceMultiplier) {
         super(name, counter, price, bb, priceMultiplier);
@@ -473,6 +483,7 @@ class PPSBonusButton extends PotatoButton {
     }
 }
 
+// a puchasable button that spawns a multiplicative bonus button for your clicks
 class ClickerBonusButton extends PotatoButton {
     constructor(name, counter, price, bb, priceMultiplier) {
         super(name, counter, price, bb, priceMultiplier);
@@ -495,6 +506,7 @@ class ClickerBonusButton extends PotatoButton {
     }
 }
 
+// a puchasable button that spawns a potato storm bonus button
 class PotatoStormBonusButton extends PotatoButton {
     constructor(name, counter, price, bb, priceMultiplier) {
         super(name, counter, price, bb, priceMultiplier);
@@ -516,7 +528,7 @@ class PotatoStormBonusButton extends PotatoButton {
         this.updateText(this.name + "<br>Cost: " + this.price + "<br>Spawns " + this.bonusButton.name);
     }
 }
-
+// a purchasable button that gives you more pps
 class BuildingButton extends CostButton {
     #rateIncrease;
 
@@ -555,6 +567,7 @@ class BuildingButton extends CostButton {
     }
 }
 
+// a base class that acts as a purchasable button that will improve something else
 class UpgradeButton extends CostButton {
     #improvement;
 
@@ -585,6 +598,7 @@ class UpgradeButton extends CostButton {
     }
 }
 
+// a purchasable button that makes your click give more potatoes
 class ClickerUpgradeButton extends UpgradeButton {
     #clicker;
 
@@ -609,7 +623,7 @@ class ClickerUpgradeButton extends UpgradeButton {
         this.updateText(this.numBought + " " + this.name + "<br>Cost: " + this.price + "<br>Click adds +" + this.improvement);
     }
 }
-
+// a purchasable button that makes a building give you more pps
 class BuildingUpgradeButton extends UpgradeButton {
     #building;
 

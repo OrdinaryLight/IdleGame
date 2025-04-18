@@ -1,16 +1,7 @@
 "use strict";
 
-// CLASS: Counter
 //
-// Author: It was given code, I only added to it
-//
-// REMARKS: This class acts as counter, mainly being used to keep track of how many potatoes a user has and is producing.
-//
-//-----------------------------------------
 class Counter {
-    //
-    //Instance variables
-    //
     #count; //the current amount of potatoes held
     #name; //id of the counter in the html file
     #htmlCounter; //the html element representing the counter
@@ -21,14 +12,12 @@ class Counter {
     #rate; //the pps value
     #multiplier; //a pps multipler (1 by default)
     #bonusButtonList; //a list of all BonusButtons
-
     #timeSinceBonus; // time since a bonus has appeared in ms
     #totalCount; // total amount of potatoes made
     #nextAchievement; // amount of potatoes till the next achievement
-
     #htmlClickAmount; // the html element representing how much a click gives
-    #clickAmount;
-    #clickMultiplier;
+    #clickAmount; // amount a click gives
+    #clickMultiplier; // a click multiplier (1 by default)
 
     //
     //Class constants
@@ -66,18 +55,14 @@ class Counter {
         this.#multiplier = 1;
         this.#initCounter();
         this.#bonusButtonList = [];
-
         this.#timeSinceBonus = 0;
         this.#totalCount = 0;
         this.#nextAchievement = Counter.#ACHIEVEMENT_THRESHOLD;
         this.#htmlClickAmount = document.getElementById(clickAmount);
         this.#clickAmount = 1;
         this.#clickMultiplier = 1;
-
-        this.#count = 20000000;
     }
 
-    //Top secret...
     cheatCode() {
         this.#count = 50000000;
     }
@@ -102,7 +87,7 @@ class Counter {
         this.#timeSinceBonus += Counter.#INTERVAL;
         if (this.#timeSinceBonus >= Counter.#TIME_BETWEEN_BONUS) {
             this.#timeSinceBonus = 0;
-            this.spawnCookie();
+            this.spawnPotato();
         }
     }
 
@@ -111,24 +96,25 @@ class Counter {
         setInterval(this.#updateCounter.bind(this), Counter.#INTERVAL);
     }
 
-    //Method that can be used to present a message:
-    //either a regular message (when the achievement parameter is set to false) OR
-    //an achievement message (when the achievement parameter is set to true).
+    // to show regular messages or achievement messages
     showMessage(
         theMessage,
         time = Counter.DEFAULT_MESSAGE_DURATION, //time is in seconds;
         achievement = false
     ) {
         let theElement = this.#htmlMessage;
-        if (achievement) theElement = this.#htmlAchievement;
+        if (achievement) {
+            theElement = this.#htmlAchievement;
+        }
+
         theElement.innerHTML = theMessage;
         theElement.classList.remove("hidden");
-        //The following statement will make theElement invisible again after [time] seconds
         setTimeout(() => {
             theElement.classList.add("hidden");
         }, time * Counter.SECOND_IN_MS);
     }
 
+    // to show click messages
     clickMessage(amount, time /* time in seconds*/) {
         let clonedElement = this.#htmlClick.cloneNode(true);
         clonedElement.innerHTML = "+" + amount * this.#clickMultiplier;
@@ -143,13 +129,10 @@ class Counter {
     }
 
     addBonusButton(bb) {
-        if (arguments.length === 1) {
-            this.#bonusButtonList.push(bb);
-        } else {
-            throw new Error("Can't add bonus button when given parameter isn't a bonus button");
-        }
+        this.#bonusButtonList.push(bb);
     }
 
+    // adds an amount of potatoes to the count
     addClick(clickAmount) {
         this.#count += this.#clickMultiplier * clickAmount;
         this.#totalCount += this.#clickMultiplier * clickAmount;
@@ -163,7 +146,8 @@ class Counter {
         this.#rate += amount;
     }
 
-    spawnCookie() {
+    // spawns a random bonus potato
+    spawnPotato() {
         let originalButton = this.#bonusButtonList[Math.floor(Math.random() * this.#bonusButtonList.length)];
         originalButton.startBonus();
     }
@@ -183,6 +167,7 @@ class Counter {
     /**
      * @param {number} amount
      */
+    // sets how much a click is worth
     set clickAmount(amount) {
         this.#clickAmount = amount;
     }
@@ -190,6 +175,7 @@ class Counter {
     /**
      * @param {number} multiplier
      */
+    // multipliers the current multiplier
     set multiplier(multiplier) {
         this.#multiplier *= multiplier;
     }
@@ -197,6 +183,7 @@ class Counter {
     /**
      * @param {number} multiplier
      */
+    // multiplies the current click multipler
     set clickMultiplier(multiplier) {
         this.#clickMultiplier *= multiplier;
     }
