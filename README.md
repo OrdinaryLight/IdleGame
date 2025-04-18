@@ -20,12 +20,12 @@ Created for fun by building upon an assignment (found in the original assignment
 ## Setup
 
 1. Clone the repository
-2. Open `game.html` in your browser
+2. Open `index.html` in your browser
 3. Start clicking!
 
 ## Project Structure
 
-- `game.html`: Main game layout and initialization
+- `index.html`: Main game layout and initialization
 - `styles.css`: Game styling
 - `Counter.js`: Handles the potato counter and core game mechanics
 - `Buttons.js`: Implements different types of buttons and bonuses
